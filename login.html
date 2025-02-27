@@ -3,71 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Quizlet/Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            position: relative;
+            width: 400px;
+            max-width: 90%;
+            height: 500px; /* Default height */
+            perspective: 1000px;
+            transition: height 0.8s ease-in-out;
+        }
+
+        .container.expanded {
+            height: 620px; /* Expanded height for signup form */
+        }
+
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease-in-out;
+            border-radius: 10px;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
+        .flip-card {
+            transform: rotateY(180deg);
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Hide overflow instead of scrolling */
+        }
+
+        .signup-container {
+            transform: rotateY(180deg);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #764ba2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(118, 75, 162, 0.2);
+        }
+
+        .form-group .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error input {
+            border-color: #e74c3c;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .remember-forgot label {
+            display: flex;
+            align-items: center;
+            color: #555;
+        }
+
+        .remember-forgot input {
+            margin-right: 5px;
+        }
+
+        .remember-forgot a {
+            color: #764ba2;
+            text-decoration: none;
+        }
+
+        .remember-forgot a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .toggle-link a {
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .toggle-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animation for inputs when focusing */
+        @keyframes inputFocus {
+            0% { transform: scale(0.98); }
+            70% { transform: scale(1.01); }
+            100% { transform: scale(1); }
+        }
+
+        .form-group input:focus {
+            animation: inputFocus 0.3s ease;
+        }
+
+        /* Button press animation */
+        @keyframes buttonPress {
+            0% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        .btn:active {
+            animation: buttonPress 0.2s ease;
+        }
+    </style>
 </head>
 <body>
-    <main>
-        <div class="masterContainer">
-            <div id="loginbox">
-                <div class="boxArea" id="graphic">
-                    <img src="./Graphic designing/flowers.png" alt="" id="graphicImage">
-                    <p>it's good to have you back</p>
+    <div class="container" id="container">
+        <div class="card" id="card">
+            <!-- Login Form -->
+            <div class="form-container login-container">
+                <div class="header">
+                    <h1>Welcome Back</h1>
+                    <p>Enter your credentials to access your account</p>
                 </div>
-                <div class="boxArea" id="LoginArea">
-                    <form id="loginForm">
-                        <div class="boxItems">
-                            <img src="./Graphic designing/logo_small.png" alt="">
-                        </div>
-                        <div class="boxItems">
-                            <p>Welcome User</p>
-                        </div>
-                        <div class="boxItems inputs">
-                            <label for="username">username</label>       
-                            <input type="text" id="username" required>
-                        </div>
-                        <div class="boxItems inputs">
-                            <label for="pword">password</label>  
-                            <input type="password" id="pword" required>
-                        </div>
-                        <div class="boxItems">                            
-                            <input type="submit" value="SIGN IN" id="submitButton">      
-                        </div>
-                        <div class="boxItems" id="log-on">
-                            <p>New to Fortunez? <a href="./signup.html">Create Account</a></p>
-                        </div>
-                    </form>
+
+                <form id="loginForm">
+                    <div class="form-group" id="emailLoginGroup">
+                        <label for="emailLogin">Email Address</label>
+                        <input type="email" id="emailLogin" placeholder="Enter your email">
+                        <div class="error-message">Please enter a valid email address</div>
+                    </div>
+
+                    <div class="form-group" id="passwordLoginGroup">
+                        <label for="passwordLogin">Password</label>
+                        <input type="password" id="passwordLogin" placeholder="Enter your password">
+                        <div class="error-message">Password must be at least 6 characters</div>
+                    </div>
+
+                    <div class="remember-forgot">
+                        <label>
+                            <input type="checkbox" id="remember"> Remember me
+                        </label>
+                        <a href="#">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn">Login</button>
+                </form>
+
+                <div class="toggle-link">
+                    Don't have an account? <a id="showSignup">Sign up</a>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="form-container signup-container">
+                <div class="header">
+                    <h1>Create Account</h1>
+                    <p>Sign up for free and start exploring</p>
+                </div>
+
+                <form id="signupForm">
+                    <div class="form-group" id="nameGroup">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your full name">
+                        <div class="error-message">Please enter your name</div>
+                    </div>
+
+                    <div class="form-group" id="emailSignupGroup">
+                        <label for="emailSignup">Email Address</label>
+                        <input type="email" id="emailSignup" placeholder="Enter your email">
+                        <div class="error-message">Please enter a valid email address</div>
+                    </div>
+
+                    <div class="form-group" id="passwordSignupGroup">
+                        <label for="passwordSignup">Password</label>
+                        <input type="password" id="passwordSignup" placeholder="Create a password">
+                        <div class="error-message">Password must be at least 6 characters</div>
+                    </div>
+
+                    <div class="form-group" id="confirmPasswordGroup">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm your password">
+                        <div class="error-message">Passwords do not match</div>
+                    </div>
+
+                    <button type="submit" class="btn">Sign Up</button>
+                </form>
+
+                <div class="toggle-link">
+                    Already have an account? <a id="showLogin">Log in</a>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <!-- JavaScript -->
     <script>
-        // Attach event listener to the form
-        let form = document.getElementById("loginForm");
+        document.addEventListener('DOMContentLoaded', function() {
+            // Card flip functionality
+            const container = document.getElementById('container');
+            const card = document.getElementById('card');
+            const showSignupBtn = document.getElementById('showSignup');
+            const showLoginBtn = document.getElementById('showLogin');
 
-        form.addEventListener("submit", (event) => {
-            event.preventDefault(); // Prevent default form submission
+            showSignupBtn.addEventListener('click', () => {
+                card.classList.add('flip-card');
+                // Expand the container height with a slight delay to match the flip animation
+                setTimeout(() => {
+                    container.classList.add('expanded');
+                }, 100);
+            });
 
-            // Get form data
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("pword").value;
+            showLoginBtn.addEventListener('click', () => {
+                card.classList.remove('flip-card');
+                // Reduce the container height with a slight delay
+                setTimeout(() => {
+                    container.classList.remove('expanded');
+                }, 100);
+            });
 
-            // Retrieve stored users from localStorage
-            let storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+            // Login form validation
+            const loginForm = document.getElementById('loginForm');
+            const emailLoginGroup = document.getElementById('emailLoginGroup');
+            const passwordLoginGroup = document.getElementById('passwordLoginGroup');
+            const emailLoginInput = document.getElementById('emailLogin');
+            const passwordLoginInput = document.getElementById('passwordLogin');
 
-            // Check if the user exists and password matches
-            let userFound = storedUsers.find(
-                (user) => user.username === username && user.password === password
-            );
+            // Signup form validation
+            const signupForm = document.getElementById('signupForm');
+            const nameGroup = document.getElementById('nameGroup');
+            const emailSignupGroup = document.getElementById('emailSignupGroup');
+            const passwordSignupGroup = document.getElementById('passwordSignupGroup');
+            const confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
+            const nameInput = document.getElementById('name');
+            const emailSignupInput = document.getElementById('emailSignup');
+            const passwordSignupInput = document.getElementById('passwordSignup');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
 
-            if (userFound) {
-                alert(`Login successful! Welcome back, ${userFound.username}`);
-                // Redirect to the index page
-                window.location.href = "index.html";
-            } else {
-                alert("Login failed! Invalid username or password.");
-            }
+            // Email validation regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Clear validation errors when typing
+            const clearErrorOnInput = (input, group) => {
+                input.addEventListener('input', () => {
+                    group.classList.remove('error');
+                });
+            };
+
+            // Clear errors for login form
+            clearErrorOnInput(emailLoginInput, emailLoginGroup);
+            clearErrorOnInput(passwordLoginInput, passwordLoginGroup);
+
+            // Clear errors for signup form
+            clearErrorOnInput(nameInput, nameGroup);
+            clearErrorOnInput(emailSignupInput, emailSignupGroup);
+            clearErrorOnInput(passwordSignupInput, passwordSignupGroup);
+            clearErrorOnInput(confirmPasswordInput, confirmPasswordGroup);
+
+            // Login form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                let isValid = true;
+
+                // Validate email
+                if (!emailRegex.test(emailLoginInput.value.trim())) {
+                    emailLoginGroup.classList.add('error');
+                    isValid = false;
+                }
+
+                // Validate password
+                if (passwordLoginInput.value.length < 6) {
+                    passwordLoginGroup.classList.add('error');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    alert('Login successful! (This is a demo)');
+                }
+            });
+
+            // Signup form submission
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                let isValid = true;
+
+                // Validate name
+                if (nameInput.value.trim() === '') {
+                    nameGroup.classList.add('error');
+                    isValid = false;
+                }
+
+                // Validate email
+                if (!emailRegex.test(emailSignupInput.value.trim())) {
+                    emailSignupGroup.classList.add('error');
+                    isValid = false;
+                }
+
+                // Validate password
+                if (passwordSignupInput.value.length < 6) {
+                    passwordSignupGroup.classList.add('error');
+                    isValid = false;
+                }
+
+                // Validate password confirmation
+                if (passwordSignupInput.value !== confirmPasswordInput.value) {
+                    confirmPasswordGroup.classList.add('error');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    alert('Signup successful! (This is a demo)');
+                }
+            });
         });
     </script>
 </body>

@@ -183,12 +183,14 @@ body {
     height: 500px;
     border-radius: 8px;
     box-shadow: 0 4px 20px var(--shadow);
+
 }
 
 .carousel-inner {
     display: flex;
     transition: transform 0.5s ease;
     height: 100%;
+
 }
 
 .carousel-item {
@@ -215,7 +217,7 @@ body {
     transform: translateX(-50%);
     text-align: center;
     color: white;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: black;
     padding: 20px;
     border-radius: 8px;
     width: 80%;
@@ -236,14 +238,14 @@ body {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color:black;
     cursor: pointer;
     transition: background-color 0.3s;
     list-style: none;
 }
 
 .carousel-indicators li.active {
-    background-color: white;
+    background-color: black;
 }
 
 .carousel-control-prev, .carousel-control-next {
@@ -571,11 +573,13 @@ body {
   .card1:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    background: #4a4aff;
+    background: #7171f7;
   }
-  .card1:hover h5,p{
+  .card1:hover h5{
     color:white;
-
+  }
+  .card1:hover p{
+    color: white;
   }
 
   @media (prefers-color-scheme: dark) {
