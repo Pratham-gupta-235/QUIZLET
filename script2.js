@@ -37,7 +37,6 @@ mobileMenuBtn.addEventListener('click', () => {
     navbar.classList.toggle('active');
 });
 
-// Carousel Functionality
 function setupCarousel(carouselId) {
     const carousel = document.getElementById(carouselId);
     if (!carousel) return;
@@ -50,76 +49,56 @@ function setupCarousel(carouselId) {
     
     let currentIndex = 0;
     const itemCount = items.length;
-    
-    // Set initial active state
-    updateCarousel();
-    
-    // Event listeners for controls
+
+    function updateCarousel() {
+        items.forEach((item, index) => {
+            item.classList.toggle("active", index === currentIndex);
+        });
+
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle("active", index === currentIndex);
+        });
+    }
+
     if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
+        prevBtn.addEventListener("click", () => {
             currentIndex = (currentIndex - 1 + itemCount) % itemCount;
             updateCarousel();
         });
     }
-    
+
     if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
+        nextBtn.addEventListener("click", () => {
             currentIndex = (currentIndex + 1) % itemCount;
             updateCarousel();
         });
     }
-    
-    // Event listeners for indicators
+
     indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
+        indicator.addEventListener("click", () => {
             currentIndex = index;
             updateCarousel();
         });
     });
-    
-    // Auto-slide functionality
-    let interval = setInterval(autoSlide, 5000);
-    
-    carousel.addEventListener('mouseenter', () => {
-        clearInterval(interval);
-    });
-    
-    carousel.addEventListener('mouseleave', () => {
-        interval = setInterval(autoSlide, 5000);
-    });
-    
-    function autoSlide() {
+
+    let interval = setInterval(() => {
         currentIndex = (currentIndex + 1) % itemCount;
         updateCarousel();
-    }
-    
-    function updateCarousel() {
-        // Update carousel position
-        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-        
-        // Update active classes
-        items.forEach((item, index) => {
-            if (index === currentIndex) {
-                item.classList.add('active');
-            } else {
-                item.classList.remove('active');
-            }
-        });
-        
-        // Update indicators
-        indicators.forEach((indicator, index) => {
-            if (index === currentIndex) {
-                indicator.classList.add('active');
-            } else {
-                indicator.classList.remove('active');
-            }
-        });
-    }
+    }, 5000);
+
+    carousel.addEventListener("mouseenter", () => clearInterval(interval));
+    carousel.addEventListener("mouseleave", () => {
+        interval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % itemCount;
+            updateCarousel();
+        }, 5000);
+    });
+
+    updateCarousel();
 }
 
-// Initialize carousels
-setupCarousel('mainCarousel');
-setupCarousel('testimonialCarousel');
+setupCarousel("mainCarousel");
+
 
 // Scroll Animation
 document.addEventListener('DOMContentLoaded', () => {
@@ -143,21 +122,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Parallax Effect
-window.addEventListener('scroll', () => {
+// Parallax Effect using requestAnimationFrame
+document.addEventListener('DOMContentLoaded', () => {
     const parallaxSections = document.querySelectorAll('.parallax-section');
-    
-    parallaxSections.forEach(section => {
-        const distance = window.scrollY;
-        const parallaxBg = section.querySelector('.parallax-bg');
-        const parallaxMid = section.querySelector('.parallax-mid');
-        
-        if (parallaxBg && parallaxMid) {
-            parallaxBg.style.transform = `translateY(${distance * 0.5}px)`;
-            parallaxMid.style.transform = `translateY(${distance * 0.3}px)`;
-        }
-    });
-});
-const icon = document.querySelector('.fa-bars'); // Change this selector to match your icon class
 
+    function parallaxEffect() {
+        let scrollY = window.scrollY;
+        
+        parallaxSections.forEach(section => {
+            const offsetTop = section.offsetTop;
+            const parallaxBg = section.querySelector('.parallax-bg');
+            const parallaxMid = section.querySelector('.parallax-mid');
+
+            let distance = scrollY - offsetTop;
+
+            if (parallaxBg) {
+                parallaxBg.style.transform = `translateY(${distance * 0.3}px) scale(1.2)`;
+            }
+            if (parallaxMid) {
+                parallaxMid.style.transform = `translateY(${distance * 0.2}px)`;
+            }
+        });
+
+        requestAnimationFrame(parallaxEffect);
+    }
+
+    requestAnimationFrame(parallaxEffect);
+});
+
+let index = 0;
+
+function moveSlide(step) {
+    const testimonials = document.querySelectorAll('.test-carousel-item');
+    const track = document.querySelector('.test-carousel-inner');
+
+    testimonials[index].classList.remove('active');
+    index = (index + step + testimonials.length) % testimonials.length;
+    testimonials[index].classList.add('active');
+    
+    track.style.transform = `translateX(-${index * 100}%)`;
+}
+
+// Auto-slide every 5 seconds
+setInterval(() => moveSlide(1), 5000);
 
