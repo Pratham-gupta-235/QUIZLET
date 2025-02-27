@@ -158,3 +158,15 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
+const icon = document.querySelector('.fa-bars'); // Change this selector to match your icon class
+
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+
+    if (document.body.classList.contains('dark-theme')) {
+        icon.style.color = 'white'; // Change icon color to white in dark mode
+    } else {
+        icon.style.color = 'black'; // Change icon color to black in light mode
+    }
+});

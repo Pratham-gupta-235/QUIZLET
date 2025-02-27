@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Merienda:wght@300..900&family=Permanent+Marker&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Tektur:wght@400..900&family=Yatra+One&display=swap');
+
 /* ---- 05. CURATED COLOR HARMONY ---- */
 :root {
     /* Light theme variables */
@@ -35,7 +38,7 @@
 
 /* Global styles */
 * {
-    margin: 0;
+    margin: 0px;
     padding: 0;
     box-sizing: border-box;
     transition: background-color 0.3s, color 0.3s;
@@ -351,14 +354,14 @@ body {
 }
 
 .parallax-bg {
-    background-image: url('/api/placeholder/1200/800');
+    background-image: url('https://files.oaiusercontent.com/file-QFZSZonh7zEyoXVzoHzc8y?se=2025-02-27T05%3A42%3A10Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D68fbd4c5-4c2b-4946-b377-db84fe9ac121.webp&sig=ipsVI7Z2cbJoUrhezJT/7Q5qqZNoGJpjLvNXozA9qyo%3D');
     background-size: cover;
     background-position: center;
     transform: translateZ(-10px) scale(2);
 }
 
 .parallax-mid {
-    background-color: rgba(0, 0, 0, 0.3);
+    /* background-color: rgba(0, 0, 0, 0.3); */
     transform: translateZ(-5px) scale(1.5);
 }
 
@@ -371,7 +374,7 @@ body {
 
 .parallax-content {
     text-align: center;
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 2rem;
     max-width: 800px;
 }
@@ -657,3 +660,21 @@ body {
     background-color: var(--accent-color);
     transform: scale(1.1);
 }
+
+.text-center{
+    text-align: center;
+}
+
+.header .logo{
+    font-family: "Sour Gummy", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.dark-theme .fa-bars {
+    color: white !important;
+}
+
