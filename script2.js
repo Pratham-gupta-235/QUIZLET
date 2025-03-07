@@ -37,6 +37,7 @@ mobileMenuBtn.addEventListener('click', () => {
     navbar.classList.toggle('active');
 });
 
+// Carousel
 function setupCarousel(carouselId) {
     const carousel = document.getElementById(carouselId);
     if (!carousel) return;

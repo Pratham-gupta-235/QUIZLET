@@ -266,6 +266,21 @@ body {
     right: 20px;
 }
 
+.carousel-caption {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.6); 
+    color: white;
+    padding: 15px;
+    text-align: center;
+    width: 80%;
+    border-radius: 8px;
+}
+
+
+
 
 /* ---- 03. MODERN BENTO-STYLE GRID ---- */
 .bento-grid {
@@ -345,7 +360,7 @@ body {
 }
 
 .parallax-bg {
-    background-image: url('https://files.oaiusercontent.com/file-QFZSZonh7zEyoXVzoHzc8y?se=2025-02-27T05%3A42%3A10Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D68fbd4c5-4c2b-4946-b377-db84fe9ac121.webp&sig=ipsVI7Z2cbJoUrhezJT/7Q5qqZNoGJpjLvNXozA9qyo%3D');
+    background-image: url('assets/unlock2.webp');
     background-size: cover;
     background-position: center;
     transform: scale(1.2);
@@ -486,12 +501,13 @@ body {
 }
 
 .blockquote {
-    background-color: var(--card-bg);
+    /* background-color: var(--card-bg); */
     padding: 2rem;
     border-radius: 16px;
     box-shadow: 0 4px 15px var(--shadow);
     margin: 0 auto;
     max-width: 800px;
+    color: var(--text-color)
 }
 
 .blockquote p {
